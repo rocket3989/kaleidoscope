@@ -15,7 +15,6 @@
     }
     .column{
         float:left;
-        width:50%;
     }
     .input{
         margin: 50px 40px 30px 0;
@@ -44,6 +43,12 @@
         height:306px;
 
     }
+    .row{
+        min-width: 1500px;
+    }
+    .canvwrap{
+       width: 900px;
+    }
 </style>
 <html>
 <head>
@@ -52,7 +57,7 @@
 </head>
 <body>
     <div class = "row">
-        <div class = "column">
+        <div class = "column canvwrap">
             <canvas width="800" height="800" id="drawing"></canvas>
         </div>
         <div class = "column">
