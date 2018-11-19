@@ -12,7 +12,7 @@ function transform(){
 	
 }
 function getMousePos() {
-    var rect = canvas.getBoundingClientRect();
+    let rect = canvas.getBoundingClientRect();
     return {
       x: event.clientX - rect.left-canvas.width/2,
       y: event.clientY - rect.top-canvas.height/2
@@ -44,7 +44,6 @@ function draw(){
 	let width = $("#line_width").val();
 	ctx.lineWidth = width;
 	ctx.strokeStyle = rgbPick;
-	console.log(rgb);
 	for(diff = 0; diff < symmetry; diff++){
 		let x0 = canvas.width/2 + r[0]*Math.cos(theta[0]+(diff*2*Math.PI)/symmetry);
 		let y0 = canvas.height/2 + r[0]*Math.sin(theta[0]+(diff*2*Math.PI)/symmetry);
