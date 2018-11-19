@@ -1,11 +1,85 @@
+<style>
+    #drawing{
+        padding: 0;
+        margin: 30px auto;
+        display: block;
+        width: 800px;
+        height: 800px;
+        border: black solid 1px;
+        background-color: #fff;
+    }
+    body{
+        padding: 0;
+        margin: 0;
+        background-color: #333;
+    }
+    .column{
+        float:left;
+        width:50%;
+    }
+    .input{
+        margin: 50px 40px 30px 0;
+        background-color:#bbb;
+        box-sizing: border-box;
+        padding: 30px 70px;
+    }
+    .attr{
+        margin-bottom: 20px;
+    }
+    input[type=number]{
+        width: 50px;
+    }
+    #canvas_picker{
+        margin: 25px 40px;
+        float:left;
+    }
+    #rgb {
+        float:left;
+        background-color: #000;
+        width:30px;
+        height:200px;
+        margin:53px 0px;
+    }
+    .colorWrap{
+        height:306px;
+
+    }
+</style>
 <html>
 <head>
-	<!--<link rel="shortcut icon" type="image/x-icon" href="favicon.ico" />-->
-    <title>Tab title</title>
-    <script language="javascript" type="text/javascript" src="libraries/p5.js"></script>
-    <script language="javascript" type="text/javascript" src="sketch.js"></script>
-    <style> body {padding: 0; margin: 0;} </style>
+    <title>Symmetry</title>
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.js" integrity="sha256-fNXJFIlca05BIO2Y5zh1xrShK3ME+/lYZ0j+ChxX2DA=" crossorigin="anonymous"></script>
 </head>
 <body>
+    <div class = "row">
+        <div class = "column">
+            <canvas width="800" height="800" id="drawing"></canvas>
+        </div>
+        <div class = "column">
+            <div class = "input">
+                <div class="attr">
+                    <input type="button" id="reset" value="Reset">       
+                </div>
+                <div class="attr">
+                    <input type="number" id="symmetry" name ="symmetry" value = 6> Symmetry       
+                </div>
+                <div class="attr"> 
+                        <input type="number" id="line_width" name ="Line Width" value = 1> Line Width       
+                </div>
+                <div class="colorWrap">
+                    <div id="rgb"></div>
+                    <canvas width="256" height="256" id="canvas_picker"></canvas>           
+                </div>
+                
+            </div> 
+        </div>            
+    </div>
+    
+    
 </body>
+<div style="display:none">
+    <img id="colors" src="/img/picker.png">
+</div>
 </html>
+<script language="javascript" type="text/javascript" src="script.js"></script>
+<script language="javascript" type="text/javascript" src="picker.js"></script>
