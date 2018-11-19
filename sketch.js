@@ -9,7 +9,6 @@ function setup() {
 function windowResized(){
 	resizeCanvas(windowWidth, windowHeight);
 }
-
 function mouseDragged(){
 	let x = mouseX - width/2;
 	let y = mouseY - height/2;
@@ -20,9 +19,4 @@ function mouseDragged(){
 	for(diff = 0; diff < symmetry; diff++){
 		ellipse(width/2+r*cos(theta+(diff*2*PI)/symmetry),height/2+r*sin(theta+(diff*2*PI)/symmetry),size,size);
 	}
-
-
-
-	
-
 }
