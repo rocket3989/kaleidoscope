@@ -7,6 +7,7 @@
         height: 800px;
         border: black solid 1px;
         background-color: #fff;
+        cursor:none; 
     }
     body{
         padding: 0;
@@ -21,15 +22,19 @@
         background-color:#bbb;
         box-sizing: border-box;
         padding: 30px 70px;
+        height: 700px;
     }
     .attr{
-        margin-bottom: 20px;
+        margin-bottom: 10px;
     }
     input[type=number]{
         width: 50px;
     }
+    .radbtn{
+        display:block;
+    }
     #canvas_picker{
-        margin: 25px 40px;
+        margin: 25px 40px 25px 60px;
         float:left;
     }
     #rgb {
@@ -49,6 +54,25 @@
     .canvwrap{
        width: 900px;
     }
+    .cursor{
+        border-radius: 50%;
+        border: 2px solid black;
+        position: absolute;
+        left: 0;
+        top: 0;
+        width:10px;
+        height:10px;
+        pointer-events: none
+    }
+    .line{
+        background-color: #000;
+        position: absolute;
+        left: 0;
+        top: 0;
+        width:10px;
+        height:10px;
+        pointer-events: none
+    }
 </style>
 <html>
 <head>
@@ -62,20 +86,29 @@
         </div>
         <div class = "column">
             <div class = "input">
-                <div class="attr">
-                    <input type="button" id="reset" value="Reset">       
+                <div class = "column left-input">
+                    <div class="attr">
+                        <input type="button" id="reset" value="Reset">       
+                    </div>
+                    <div class="attr">
+                        <input type="number" id="symmetry" name ="symmetry" value = 6> Symmetry       
+                    </div>
+                    <div class="attr"> 
+                            <input type="number" id="line_width" name ="Line Width" value = 1> Line Width       
+                    </div>
+                    <div class="colorWrap">
+                        <div id="rgb"></div>
+                        <canvas width="256" height="256" id="canvas_picker"></canvas>           
+                    </div>
                 </div>
-                <div class="attr">
-                    <input type="number" id="symmetry" name ="symmetry" value = 6> Symmetry       
+                <div class = "column right-input">
+                    <div class="attr">
+                        <label class="radbtn"><input type="radio" name="brush" value="Normal" checked="true">Normal Drawing</label>
+                        <label class="radbtn"><input type="radio" name="brush" value="Straight">Straight Lines</label>
+                        <label class="radbtn"><input type="radio" name="brush" value="Spray">Spray</label>
+                        <label class="radbtn"><input type="radio" name="brush" value="">Something</label>
+                    </div>
                 </div>
-                <div class="attr"> 
-                        <input type="number" id="line_width" name ="Line Width" value = 1> Line Width       
-                </div>
-                <div class="colorWrap">
-                    <div id="rgb"></div>
-                    <canvas width="256" height="256" id="canvas_picker"></canvas>           
-                </div>
-                
             </div> 
         </div>            
     </div>
@@ -85,6 +118,9 @@
 <div style="display:none">
     <img id="colors" src="./img/picker.png">
 </div>
+<div class="cursor"></div>
+<div class="line"></div>
+</html>
 </html>
 <script language="javascript" type="text/javascript" src="script.js"></script>
 <script language="javascript" type="text/javascript" src="picker.js"></script>
