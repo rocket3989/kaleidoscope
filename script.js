@@ -9,6 +9,7 @@ var symmetry = $('#symmetry').val();
 var mirror = false;
 var brush = 'Normal';
 var start;
+
 // Changes to the form input trigger variable reloads
 $('#line_width').change(function (){
 	if ($('#line_width').val() <= 0)
@@ -22,10 +23,17 @@ $('#symmetry').change(function (){
 	}
 	symmetry = $('#symmetry').val();
 });
+$('#mirror').change(function (){
+	mirror = !mirror;
+});
 $('input[type=radio][name=brush]').change(function(){
 	brush = this.value;
 	penDown = false;
 })
+$("#background").click(function(){
+	ctx.fillStyle=rgbPick;
+	ctx.fillRect(0, 0, canvas.width, canvas.height);
+});
 $("#reset").click(function(){
 	ctx.clearRect(0, 0, canvas.width, canvas.height);
 });
@@ -100,6 +108,7 @@ $('body').mousemove(function(){
 
 	$('.cursor').css({top: event.clientY-1-width/2, left:  event.clientX-1-width/2,width:width,height:width});
 });
+
 function lineDiv(){
 	
 	end = {x: event.clientX, y:event.clientY-width/2};	
@@ -133,7 +142,8 @@ function draw(){
 		ctx.lineTo(x1,y1);
 		ctx.stroke();
 		ctx.beginPath();
-		ctx.arc(x1, y1, (width >= 2 ? (width/2) : 0), 0, 2 * Math.PI, false);
+		if (width>=2)
+			ctx.arc(x1, y1, width/2, 0, 2 * Math.PI, false);
 		ctx.fillStyle = rgbPick;
 		ctx.fill();
 		if(mirror){

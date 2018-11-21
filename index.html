@@ -30,6 +30,13 @@
     input[type=number]{
         width: 50px;
     }
+    .checkbox{
+        padding-left: 25px; 
+    }
+    input[type=checkbox]{
+        width: 20px;
+        height: 20px;
+    }
     .radbtn{
         display:block;
     }
@@ -93,12 +100,18 @@
                     <div class="attr">
                         <input type="number" id="symmetry" name ="symmetry" value = 6> Symmetry       
                     </div>
+                    <div class="attr checkbox">
+                        <input type="checkbox" id="mirror" name ="mirror" value = 6> Mirror       
+                    </div>
                     <div class="attr"> 
                             <input type="number" id="line_width" name ="Line Width" value = 1> Line Width       
                     </div>
                     <div class="colorWrap">
                         <div id="rgb"></div>
                         <canvas width="256" height="256" id="canvas_picker"></canvas>           
+                    </div>
+                    <div class="attr">
+                        <input type="button" id="background" value="Background">       
                     </div>
                 </div>
                 <div class = "column right-input">
