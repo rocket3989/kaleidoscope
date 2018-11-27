@@ -7,8 +7,12 @@ var ctx = canvas.getContext('2d');
 var width = $('#line_width').val();
 var symmetry = $('#symmetry').val();
 var mirror = false;
+var rainbow = false;
 var brush = 'Normal';
+var alpha = 1;
+var speed = .1;
 var start;
+var hue = 0;
 
 // Changes to the form input trigger variable reloads
 $('#line_width').change(function (){
@@ -25,6 +29,17 @@ $('#symmetry').change(function (){
 });
 $('#mirror').change(function (){
 	mirror = !mirror;
+});
+$('#rainbow').change(function (){
+	rainbow =! rainbow
+	hue = 0;
+});
+$('#speed').change(function (){
+	speed = $('#speed').val()/1000;
+});
+$('#btn-download').click(function (){
+	var dataURL = canvas.toDataURL('image/png');
+    $('#btn-download').attr('href',dataURL);
 });
 $('input[type=radio][name=brush]').change(function(){
 	brush = this.value;
@@ -95,6 +110,8 @@ $('body').mousemove(function(){
 				theta[0]=theta[1];
 				r[0]=r[1];
 				transform();
+				if (rainbow)
+					hueChange();
 				draw();
 			}
 			break;
@@ -105,10 +122,16 @@ $('body').mousemove(function(){
 			}
 			break;
 	}
-
 	$('.cursor').css({top: event.clientY-1-width/2, left:  event.clientX-1-width/2,width:width,height:width});
 });
+function hueChange(){
+	console.log(speed);
+	hue += Math.sqrt(r[0]*r[0]+r[1]*r[1]-2*r[0]*r[1]*Math.cos(theta[1]-theta[0]))*speed;
+	hue = hue%360;
+	rgbPick = 'hsl('+ parseInt(hue) +',100%,50%)';
+	console.log(rgbPick);
 
+}
 function lineDiv(){
 	
 	end = {x: event.clientX, y:event.clientY-width/2};	
