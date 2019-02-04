@@ -14,6 +14,9 @@ var speed = .1;
 var start;
 var hue = 0;
 var rgb = [0,0,0];
+var undos = [];
+var canvasPic;
+
 // Changes to the form input trigger variable reloads
 
 $('#line_width').change(function (){
@@ -22,10 +25,8 @@ $('#line_width').change(function (){
 	width = $('#line_width').val();
 });
 $('#symmetry').change(function (){
-	if ($('#symmetry').val() <= 0){
-		alert("symmetry is typically constrained to counting numbers");
+	if ($('#symmetry').val() <= 0)
 		$('#symmetry').val(1);
-	}
 	symmetry = $('#symmetry').val();
 });
 $('#mirror').change(function (){
@@ -42,7 +43,6 @@ $('#rainbow').change(function (){
 		$('.speed').hide();
 		$('.rainbow').css({marginBottom: '41px'});
 	}
-	
 });
 $('#speed').change(function (){
 	speed = $('#speed').val()/1000;
@@ -70,8 +70,19 @@ $('input[type=radio][name=brush]').change(function(){
 	penDown = false;
 })
 $("#background").click(function(){
+	undos.push(canvas.toDataURL());
 	ctx.fillStyle=rgbPick;
 	ctx.fillRect(0, 0, canvas.width, canvas.height);
+});
+$("#undo").click(function(){
+	if(undos.length){
+		canvasPic = new Image();
+		canvasPic.src = undos.pop();
+		canvasPic.onload = function(){
+			ctx.clearRect(0, 0, canvas.width, canvas.height);
+			ctx.drawImage(canvasPic, 0, 0);
+		}
+	}
 });
 $("#reset").click(function(){
 	ctx.clearRect(0, 0, canvas.width, canvas.height);
@@ -104,7 +115,8 @@ $('#drawing').mouseout(function(){
 	cursor = false;
 	$('.cursor').hide();
 });
-$('body').mousedown(function(){
+$('#drawing').mousedown(function(){
+	undos.push(canvas.toDataURL());
 	transform();
 	theta[0]=theta[1];
 	r[0]=r[1];
@@ -113,6 +125,9 @@ $('body').mousedown(function(){
 	start = {x: event.clientX, y:event.clientY-width/2};
 	
 });
+$('body').mouseout(function(){
+	penDown = false;
+})
 $('body').mouseup(function(){
 	switch(brush){
 		case 'Straight':
@@ -188,12 +203,15 @@ function draw(){
 		ctx.beginPath();
 		ctx.moveTo(x0,y0);
 		ctx.lineTo(x1,y1);
+		ctx.lineCap = 'round';
 		ctx.stroke();
+		/*
 		ctx.beginPath();
 		if (width>=2)
 			ctx.arc(x1, y1, width/2, 0, 2 * Math.PI, false);
 		ctx.fillStyle = rgbPick;
 		ctx.fill();
+		*/
 		if(mirror){
 			let x0 = canvas.width/2 + r[0]*Math.cos(-theta[0]+(diff*2*Math.PI)/symmetry);
 			let y0 = canvas.height/2 + r[0]*Math.sin(-theta[0]+(diff*2*Math.PI)/symmetry);
