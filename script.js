@@ -16,6 +16,21 @@ var hue = 0;
 var rgb = [0,0,0];
 var undos = [];
 var canvasPic;
+window.addEventListener("resize", redraw);
+redraw();
+
+function redraw() {
+    var min = (x,y) =>{ return (x > y ? y : x)};
+    canvas.height = min(.9 * window.innerHeight, .5 * window.innerWidth - 60);
+    canvas.width = canvas.height;
+    $('#drawing').css("height",canvas.height);
+    $('#drawing').css("width", canvas.height);
+    $('.canvwrap').css("width", window.innerWidth * .5);
+    //$()
+
+    
+}
+
 
 // Changes to the form input trigger variable reloads
 
@@ -105,6 +120,7 @@ function getMousePos() {
       y: event.clientY - rect.top-canvas.height/2
     };
 }
+
 
 
 $('#drawing').mouseover(function(){

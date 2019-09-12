@@ -1,7 +1,10 @@
 var picker = document.getElementById('canvas_picker').getContext('2d');
 var onPick = false;
 var rgbPick = '#000';
-picker.drawImage(document.getElementById('colors'),0,0);
+var img = new Image();
+img.src = document.getElementById('colors').src;
+img.setAttribute('crossOrigin', '');
+picker.drawImage(img,0,0);
 function pickColor(){
     let rect = document.getElementById('canvas_picker').getBoundingClientRect();
     let x = event.clientX - rect.left;
