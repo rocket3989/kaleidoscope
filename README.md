@@ -1,5 +1,5 @@
 # symmetry-drawer
-https://rocket3989.github.io/symmetry-drawer/
+https://rocket3989.github.io/kaleidoscope/
 
 Click and hold to draw
 
