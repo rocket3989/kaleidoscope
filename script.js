@@ -136,7 +136,10 @@ $('#drawing').mousedown(function(){
 	transform();
 	theta[0]=theta[1];
 	r[0]=r[1];
-	draw();
+    if(brush != 'Fill')
+        draw();
+    else
+        floodFill();
 	penDown = true;
 	start = {x: event.clientX, y:event.clientY-width/2};
 	
@@ -153,7 +156,7 @@ $('body').mouseup(function(){
 		case 'Normal':
 		case 'Spray':
 			penDown = false;
-			break;
+            break;
 	}
 });
 $('body').mousemove(function(){
@@ -243,4 +246,84 @@ function draw(){
 			ctx.fill();
 		}
 	}
+}
+
+function floodFill(){
+
+    colors = ctx.getImageData(0, 0, canvas.height, canvas.height);
+
+    pixels = []
+    
+    for(diff = 0; diff < symmetry; diff++){
+		let x0 = canvas.width/2 + r[1] * Math.cos(theta[1] + (diff*2*Math.PI)/symmetry);
+        let y0 = canvas.height/2 + r[1] * Math.sin(theta[1] + (diff*2*Math.PI)/symmetry);
+        pixels.push([Math.floor(x0), Math.floor(y0)])
+    }
+    
+    xCurr = Math.floor(pixels[0][0])
+    yCurr = Math.floor(pixels[0][1])
+
+    
+    pixelPos = (yCurr * canvas.width + xCurr) * 4;
+    
+    startColor = {
+        r:colors.data[pixelPos],
+        g:colors.data[pixelPos + 1],
+        b:colors.data[pixelPos + 2],
+        a:colors.data[pixelPos + 3]
+    }
+    console.log(startColor)
+    while(pixels.length){
+        // console.log(pixels.length)
+        // if(pixels.length > 10000) break;
+
+        cell = pixels.pop()
+        pixelPos = (cell[1] * canvas.width + cell[0]) * 4;
+
+
+        if(colors.data[pixelPos] == rgb[0] &&
+            colors.data[pixelPos + 1] == rgb[1]&&
+            colors.data[pixelPos + 2] == rgb[2]&&
+            colors.data[pixelPos + 3] == rgb[3])
+            continue;
+        
+        if(colors.data[pixelPos] != startColor.r || 
+           colors.data[pixelPos + 1] != startColor.g ||
+           colors.data[pixelPos + 2] != startColor.b ||
+           colors.data[pixelPos + 3] != startColor.a){
+            console.log(colors.data[pixelPos], colors.data[pixelPos + 1], colors.data[pixelPos + 2], colors.data[pixelPos + 3], startColor)
+            
+            colors.data[pixelPos] = (rgb[0] + colors.data[pixelPos]) / 2;
+            colors.data[pixelPos + 1] = (rgb[1] + colors.data[pixelPos + 1]) / 2;
+            colors.data[pixelPos + 2] = (rgb[2] + colors.data[pixelPos + 2]) / 2;
+            colors.data[pixelPos + 3] = (rgb[3] + colors.data[pixelPos + 3]) / 2;
+            continue;
+        }
+            
+        
+
+        colors.data[pixelPos] = rgb[0];
+        colors.data[pixelPos + 1] = rgb[1];
+        colors.data[pixelPos + 2] = rgb[2];
+        colors.data[pixelPos + 3] = rgb[3];
+
+        for(offX = -1; offX <= 1; offX += 1){
+            xCurr = cell[0] + offX
+            if(xCurr >= canvas.width || xCurr < 0)
+                continue;
+            
+            for(offY = -1; offY <= 1; offY += 1){
+                yCurr = cell[1] + offY
+                if(yCurr >= canvas.width || yCurr < 0)
+                    continue;
+
+                pixelPos = (yCurr * canvas.width + xCurr) * 4;
+
+                pixels.push([xCurr, yCurr])
+            }
+                
+        }
+
+    }
+    ctx.putImageData(colors, 0, 0);
 }
