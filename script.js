@@ -125,13 +125,16 @@ function getMousePos() {
 
 $('#drawing').mouseover(function(){
 	cursor = true;
-	$('.cursor').show();
+    $('.cursor').show();
+    
 });
 $('#drawing').mouseout(function(){
 	cursor = false;
-	$('.cursor').hide();
+    $('.cursor').hide();
+    
 });
 $('#drawing').mousedown(function(){
+    console.log("lmao")
 	undos.push(canvas.toDataURL());
 	transform();
 	theta[0]=theta[1];
@@ -150,10 +153,12 @@ $('body').mouseout(function(){
 $('body').mouseup(function(){
 	switch(brush){
 		case 'Straight':
-			transform();
+            $('.line').hide();
+            if(penDown)
+			{transform();
 			draw();
-			$('.line').hide();
-		case 'Normal':
+            }
+        case 'Normal':
 		case 'Spray':
 			penDown = false;
             break;
@@ -287,11 +292,23 @@ function floodFill(){
             colors.data[pixelPos + 3] == rgb[3])
             continue;
         
-        if(colors.data[pixelPos] != startColor.r || 
-           colors.data[pixelPos + 1] != startColor.g ||
-           colors.data[pixelPos + 2] != startColor.b ||
-           colors.data[pixelPos + 3] != startColor.a){
-            console.log(colors.data[pixelPos], colors.data[pixelPos + 1], colors.data[pixelPos + 2], colors.data[pixelPos + 3], startColor)
+        // if(colors.data[pixelPos] != startColor.r || 
+        //    colors.data[pixelPos + 1] != startColor.g ||
+        //    colors.data[pixelPos + 2] != startColor.b ||
+        //    colors.data[pixelPos + 3] != startColor.a){
+            
+        //        colors.data[pixelPos] = (rgb[0] + colors.data[pixelPos]) / 2;
+        //        colors.data[pixelPos + 1] = (rgb[1] + colors.data[pixelPos + 1]) / 2;
+        //        colors.data[pixelPos + 2] = (rgb[2] + colors.data[pixelPos + 2]) / 2;
+        //        colors.data[pixelPos + 3] = (rgb[3] + colors.data[pixelPos + 3]) / 2;
+        //     continue;
+        // }
+        colorDiff = Math.abs(colors.data[pixelPos] - startColor.r) + 
+                    Math.abs(colors.data[pixelPos + 1] - startColor.g) +
+                    Math.abs(colors.data[pixelPos + 2] - startColor.b) +
+                    Math.abs(colors.data[pixelPos + 3] - startColor.a)
+        
+        if (colorDiff > 3){
             
             colors.data[pixelPos] = (rgb[0] + colors.data[pixelPos]) / 2;
             colors.data[pixelPos + 1] = (rgb[1] + colors.data[pixelPos + 1]) / 2;
@@ -299,7 +316,6 @@ function floodFill(){
             colors.data[pixelPos + 3] = (rgb[3] + colors.data[pixelPos + 3]) / 2;
             continue;
         }
-            
         
 
         colors.data[pixelPos] = rgb[0];
