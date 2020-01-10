@@ -13,7 +13,7 @@ var alpha = 1;
 var speed = .1;
 var start;
 var hue = 0;
-var rgb = [0,0,0];
+var rgb = [0, 0, 0, 255];
 var undos = [];
 var canvasPic;
 window.addEventListener("resize", redraw);
@@ -134,7 +134,6 @@ $('#drawing').mouseout(function(){
     
 });
 $('#drawing').mousedown(function(){
-    console.log("lmao")
 	undos.push(canvas.toDataURL());
 	transform();
 	theta[0]=theta[1];
@@ -277,7 +276,7 @@ function floodFill(){
         b:colors.data[pixelPos + 2],
         a:colors.data[pixelPos + 3]
     }
-    console.log(startColor)
+    // console.log(startColor)
     while(pixels.length){
         // console.log(pixels.length)
         // if(pixels.length > 10000) break;
