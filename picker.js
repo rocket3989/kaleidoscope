@@ -3,7 +3,6 @@ var onPick = false;
 var rgbPick = '#000f';
 var img = new Image();
 img.src = document.getElementById('colors').src;
-img.setAttribute('crossOrigin', '');
 picker.drawImage(img,0,0);
 function pickColor(){
     let rect = document.getElementById('canvas_picker').getBoundingClientRect();

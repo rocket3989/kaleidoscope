@@ -109,15 +109,15 @@ $('.speed').hide();
 
 function transform(){
 	pos = getMousePos();
-	theta[1] = Math.atan2(pos.y,pos.x);
-	r[1] = Math.sqrt(pos.x*pos.x+pos.y*pos.y);
+	theta[1] = Math.atan2(pos.y, pos.x);
+	r[1] = Math.sqrt(pos.x * pos.x + pos.y * pos.y);
 	
 }
 function getMousePos() {
     let rect = canvas.getBoundingClientRect();
     return {
-      x: event.clientX - rect.left-canvas.width/2,
-      y: event.clientY - rect.top-canvas.height/2
+      x: event.clientX - rect.left - canvas.width/2,
+      y: event.clientY - rect.top - canvas.height/2
     };
 }
 
@@ -189,8 +189,8 @@ $('body').mousemove(function(){
 	$('.cursor').css({top: event.clientY-1-width/2, left:  event.clientX-1-width/2,width:width,height:width});
 });
 function hueChange(){
-	hue += Math.sqrt(r[0]*r[0]+r[1]*r[1]-2*r[0]*r[1]*Math.cos(theta[1]-theta[0]))*speed;
-	hue = hue%360;
+	hue += Math.sqrt(r[0] * r[0] + r[1] * r[1] - 2 * r[0] * r[1] * Math.cos(theta[1] - theta[0])) * speed;
+	hue = hue % 360;
 	rgbPick = 'hsla('+ parseInt(hue) +',100%,50%,' + alpha + ')';
 	$('#rgb').css("background-color", rgbPick);
 }
@@ -200,8 +200,8 @@ function lineDiv(){
 	let xdiff = start.x-end.x;
 	let ydiff = start.y-end.y;
 
-	let dist = Math.sqrt(xdiff*xdiff+ydiff*ydiff);
-	let slope = Math.atan2(ydiff,xdiff);
+	let dist = Math.sqrt(xdiff * xdiff + ydiff * ydiff);
+	let slope = Math.atan2(ydiff, xdiff);
 	$('.line').css({
 		width: dist,
 		height: width,
@@ -218,9 +218,9 @@ function draw(){
 	ctx.lineWidth = width;
 	ctx.strokeStyle = rgbPick;
 	for(diff = 0; diff < symmetry; diff++){
-		let x0 = canvas.width/2 + r[0]*Math.cos(theta[0]+(diff*2*Math.PI)/symmetry);
+		let x0 = canvas.width/2  + r[0]*Math.cos(theta[0]+(diff*2*Math.PI)/symmetry);
 		let y0 = canvas.height/2 + r[0]*Math.sin(theta[0]+(diff*2*Math.PI)/symmetry);
-		let x1 = canvas.width/2 + r[1]*Math.cos(theta[1]+(diff*2*Math.PI)/symmetry);
+		let x1 = canvas.width/2  + r[1]*Math.cos(theta[1]+(diff*2*Math.PI)/symmetry);
 		let y1 = canvas.height/2 + r[1]*Math.sin(theta[1]+(diff*2*Math.PI)/symmetry);
 		
 		ctx.beginPath();
@@ -236,9 +236,9 @@ function draw(){
 		ctx.fill();
 		*/
 		if(mirror){
-			let x0 = canvas.width/2 + r[0]*Math.cos(-theta[0]+(diff*2*Math.PI)/symmetry);
+			let x0 = canvas.width/2  + r[0]*Math.cos(-theta[0]+(diff*2*Math.PI)/symmetry);
 			let y0 = canvas.height/2 + r[0]*Math.sin(-theta[0]+(diff*2*Math.PI)/symmetry);
-			let x1 = canvas.width/2 + r[1]*Math.cos(-theta[1]+(diff*2*Math.PI)/symmetry);
+			let x1 = canvas.width/2  + r[1]*Math.cos(-theta[1]+(diff*2*Math.PI)/symmetry);
 			let y1 = canvas.height/2 + r[1]*Math.sin(-theta[1]+(diff*2*Math.PI)/symmetry);
 			ctx.beginPath();
 			ctx.moveTo(x0,y0);
@@ -259,7 +259,7 @@ function floodFill(){
     pixels = []
     
     for(diff = 0; diff < symmetry; diff++){
-		let x0 = canvas.width/2 + r[1] * Math.cos(theta[1] + (diff*2*Math.PI)/symmetry);
+		let x0 = canvas.width/2  + r[1] * Math.cos(theta[1] + (diff*2*Math.PI)/symmetry);
         let y0 = canvas.height/2 + r[1] * Math.sin(theta[1] + (diff*2*Math.PI)/symmetry);
         pixels.push([Math.floor(x0), Math.floor(y0)])
     }
